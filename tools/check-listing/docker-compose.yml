@@ -1,0 +1,5 @@
+services:
+  check-listing:
+    build: .
+    volumes:
+      - /volume1/docker/search_specific_listing:/app

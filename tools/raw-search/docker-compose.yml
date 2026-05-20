@@ -1,0 +1,5 @@
+services:
+  check-chars:
+    build:
+      context: .
+      dockerfile: Dockerfile.check

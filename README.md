@@ -49,7 +49,7 @@ LOCATION  = 'amsterdam'     # City to search in
 PRICE_MIN =                 # Min price in EUR
 PRICE_MAX = 700_000         # Max price in EUR
 AREA_MIN  = 75              # Min living area in m²
-AREA_MAX  = 75              # Max living area in m²
+AREA_MAX  =                 # Max living area in m²
 
 NEIGHBOURHOODS = [...]      # Leave empty [] to skip neighbourhood filter
 
