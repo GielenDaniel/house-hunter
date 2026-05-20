@@ -6,46 +6,12 @@ from urllib.parse import quote
 #  SHARED SETTINGS
 # ============================================================
 
-LOCATION  = 'utrecht'
+LOCATION  = 'amsterdam' 
 PRICE_MIN = None
 PRICE_MAX = 700000
 AREA_MIN  = 75
 
-NEIGHBOURHOODS = [
-    'bleekstraat en omgeving',
-    'breedstraat en plompetorengracht en omgeving',
-    'buiten wittevrouwen',
-    'dichterswijk',
-    'domplein, neude, janskerkhof',
-    'hooch boulandt',
-    'hoog-catharijne ns en jaarbeurs',
-    'lange elisabethstraat, mariaplaats en omgeving',
-    'lange nieuwstraat en omgeving',
-    'lauwerecht',
-    'lunetten-noord',
-    'nieuw engeland, th. a. kempisplantsoen en omgeving',
-    'nieuwegracht-oost',
-    'nobelstraat en omgeving',
-    'oog in al',
-    'oudwijk',
-    'pijlsweerd-noord',
-    'pijlsweerd-zuid',
-    'schepenbuurt, cartesiusweg e.o.',
-    'springweg en omgeving geertebuurt',
-    'staatsliedenbuurt',
-    'straat vondellaan',
-    'transwijk-noord',
-    'transwijk-zuid',
-    'tuinwijk-oost',
-    'tuinwijk-west',
-    'vogelenbuurt',
-    'watervogelbuurt',
-    'welgelegen, den hommel',
-    'wijk c',
-    'wijk wijk 06 binnenstad',
-    'wilhelminapark en omgeving',
-    'wittevrouwen',
-]
+NEIGHBOURHOODS = []
 
 # ============================================================
 #  SHARED PROPERTY FILTERS

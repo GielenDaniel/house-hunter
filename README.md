@@ -1,6 +1,7 @@
 # 🏠 house-hunter
 
-Automated apartment scraper for [Funda](https://www.funda.nl) and [Pararius](https://www.pararius.nl), built for searching in Utrecht. Sends email alerts for new listings that match your filters, and includes a small web UI to browse, favourite, and dismiss listings.
+Automated apartment scraper for [Funda](https://www.funda.nl) and [Pararius](https://www.pararius.nl). 
+Sends email alerts for new listings that match your filters, and includes a small web UI to browse, favourite, and dismiss listings.
 
 ## Features
 
@@ -44,9 +45,11 @@ cp .env.example .env
 Edit `scraper/utils.py` to set your filters:
 
 ```python
-LOCATION  = 'utrecht'       # City to search in
+LOCATION  = 'amsterdam'     # City to search in
+PRICE_MIN =                 # Min price in EUR
 PRICE_MAX = 700_000         # Max price in EUR
 AREA_MIN  = 75              # Min living area in m²
+AREA_MAX  = 75              # Max living area in m²
 
 NEIGHBOURHOODS = [...]      # Leave empty [] to skip neighbourhood filter
 
