@@ -1,0 +1,25 @@
+services:
+
+  house-hunter:
+    build:
+      context: ./scraper
+      dockerfile: Dockerfile
+    container_name: house-hunter
+    restart: "no"
+    environment:
+      - EMAIL_FROM=${EMAIL_FROM}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+      - EMAIL_TO=${EMAIL_TO}
+    volumes:
+      - /volume1/docker/house-hunter/data:/data
+
+  house-hunter-app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile.app
+    container_name: house-hunter-app
+    restart: unless-stopped
+    volumes:
+      - /volume1/docker/house-hunter/data:/data
+    ports:
+      - "8099:8000"
