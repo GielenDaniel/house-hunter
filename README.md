@@ -1,6 +1,6 @@
 # 🏠 house-hunter
 
-Automated apartment scraper for [Funda](https://www.funda.nl) and [Pararius](https://www.pararius.nl). 
+Automated apartment scraper for [Funda](https://www.funda.nl) and [Pararius](https://www.pararius.nl).
 Sends email alerts for new listings that match your filters, and includes a small web UI to browse, favourite, and dismiss listings.
 
 ## Features
@@ -15,16 +15,25 @@ Sends email alerts for new listings that match your filters, and includes a smal
 
 ```
 house-hunter/
-├── scraper/              # The scraper + email alerter
-│   ├── main.py           # Orchestrator — runs both scrapers, sends email
-│   ├── funda_script.py   # Funda scraper
-│   ├── pararius_script.py# Pararius scraper
-│   ├── utils.py          # Shared settings, filters, helpers
+├── scraper/                      # The scraper + email alerter
+│   ├── main.py                   # Orchestrator — runs both scrapers, sends email
+│   ├── funda_script.py           # Funda scraper
+│   ├── pararius_script.py        # Pararius scraper
+│   ├── utils.py                  # Shared settings, filters, helpers
 │   └── Dockerfile
-├── app/                  # Web UI
-│   ├── app.py            # FastAPI backend
-│   ├── index.html        # Frontend
+├── app/                          # Web UI
+│   ├── app.py                    # FastAPI backend
+│   ├── index.html                # Frontend
 │   └── Dockerfile.app
+├── tools/                        # Developer utilities
+│   ├── check-listing/            # Inspect a single listing by ID or URL
+│   │   ├── check_listing.py
+│   │   ├── Dockerfile
+│   │   └── docker-compose.yml
+│   └── raw-search/               # Wide-net search to explore available characteristics
+│       ├── check_characteristics.py
+│       ├── Dockerfile.check
+│       └── docker-compose.yml
 ├── docker-compose.yml
 └── .env.example
 ```
@@ -34,7 +43,7 @@ house-hunter/
 ### 1. Clone and configure
 
 ```bash
-git clone https://github.com/your-username/house-hunter.git
+git clone https://github.com/GielenDaniel/house-hunter.git
 cd house-hunter
 cp .env.example .env
 # Edit .env with your Gmail credentials
@@ -45,11 +54,10 @@ cp .env.example .env
 Edit `scraper/utils.py` to set your filters:
 
 ```python
-LOCATION  = 'amsterdam'     # City to search in
-PRICE_MIN =                 # Min price in EUR
+LOCATION  = 'utrecht'       # City to search in
+PRICE_MIN = None            # Min price in EUR (or None for no minimum)
 PRICE_MAX = 700_000         # Max price in EUR
 AREA_MIN  = 75              # Min living area in m²
-AREA_MAX  =                 # Max living area in m²
 
 NEIGHBOURHOODS = [...]      # Leave empty [] to skip neighbourhood filter
 
@@ -70,8 +78,8 @@ REQUIRE_LIFT = True
 **Scraper** (run on a schedule, e.g. via cron or Synology Task Scheduler):
 
 ```bash
-docker compose run --rm house-hunter            # buy listings
-docker compose run --rm house-hunter python main.py rent  # rental listings
+docker compose run --rm house-hunter                          # buy listings
+docker compose run --rm house-hunter python main.py rent      # rental listings
 ```
 
 **Web UI** (always-on):
@@ -95,6 +103,42 @@ Set `EMAIL_FROM`, `EMAIL_PASSWORD`, and `EMAIL_TO` in your `.env` file.
    - Task type: User-defined script
    - Command: `docker compose -f /volume1/docker/house-hunter/docker-compose.yml run --rm house-hunter`
    - Schedule: every 30–60 minutes
+
+## Developer tools
+
+Two utilities in `tools/` are useful when tuning your filters or debugging scraper output.
+
+### check-listing
+
+Fetches a single listing by Funda ID or Pararius URL and prints every available field and characteristic. Useful for seeing exactly what data the libraries return for a specific property.
+
+```python
+# Edit tools/check-listing/check_listing.py
+FUNDA_IDS    = ['12345678']
+PARARIUS_IDS = ['https://www.pararius.nl/appartement-te-koop/...']
+```
+
+```bash
+cd tools/check-listing
+docker compose run --rm check-listing
+```
+
+### raw-search
+
+Runs a broad search and prints all characteristics for the first N results. Useful for discovering which characteristic keys exist and what values they can take before writing filter logic.
+
+```python
+# Edit tools/raw-search/check_characteristics.py
+OFFERING_TYPE = 'buy'       # 'buy' or 'rent'
+LOCATION      = 'utrecht'
+PRICE_MAX     = 700_000
+LIMIT         = 10          # number of listings to inspect
+```
+
+```bash
+cd tools/raw-search
+docker compose run --rm check-chars
+```
 
 ## Dependencies
 
